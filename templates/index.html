@@ -1,100 +1,1063 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Mail app</title>
-    <meta name="viewport" content="width=device-width">
-    <meta name="description" content="Mail App Homepage">
+<html lang="ro"><head>
+    <meta charset="UTF-8">
+    <title>Micro Lecturi - Find a book</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-</head>
 
-<body>
-<nav class="navbar">
-    <ul>
-        <li class="active"><a href="/">Home</a></li>
-        <li><a href="/#texte-narative">Texte narative</a></li>
-        <li><a href="/#poezii">Poezii</a></li>
-        <li><a href="/#altele">Altele</a></li>
-    </ul>
-</nav>
 
-<div class="page-content">
-    <div class="wrap">
-        <h3 id="background">Micro-lecturi</h3>
-        <p>Citeste pentru BAC direct pe email. Lecturile pentru BAC, putin cate putin. Le primesti pe mail. Citesti in metrou.</p>
-        <p>Enter your email</p>
-        <form method="post">
-            <input type="email" name="email" required>
-            <input type="submit" value="Submit">
-        </form>
-        <h3 id="texte-narative">Texte narative</h3>
-        <table>
-            <tbody>
-            <tr>
-                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
-            </tr>
-            <tr>
-                <td>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOvT0ofh0us0RDbp4-iHYtgXRqTA7Xrjs7WQ&usqp=CAU" style="width:300px;">
-                </td>
-                <td>
-                    <b>O scrisoare pierdută</b>
-                    <br>de I.L. Caragiale<br>Comedie<br> 240 pagini
-                    <br><br>
-                    O scrisoare pierdută este o comedie de moravuri sociale și politice, scrisă de dramaturgul român Ion Luca Caragiale, în anul 1884.
-                </td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h3 id="poezii">Poezii</h3>
-        <table>
-            <tbody>
-            <tr>
-                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
-            </tr>
-            <tr>
-                <td>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThlnPNIDEK8dJMwBL08wn8bt-EOYYAToOUcQ&usqp=CAU" style="width:300px; height: 200px">
-                </td>
-                <td>
-                    <b>Luceafarul</b>
-                    <br>de Mihai Eminescu<br>Poezie romantica<br> 98 strofe
-                    <br><br>
-                    Luceafărul este una dintre cele mai cunoscute poezii ale lui Mihai Eminescu, începută încă din 1873.
-                </td>
-            </tr>
-            </tbody>
-        </table>
 
-        <h3 id="altele">Altele</h3>
-        <table>
-            <tbody>
-            <tr>
-                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
-            </tr>
-            <tr>
-                <td>
-                    <img src="https://media.bzi.ro/unsafe/1060x596/smart/filters:contrast(5):format(webp):quality(80)/http://www.bzi.ro/wp-content/uploads/2022/01/271651927_1539243699775137_2833922511989246746_n.jpg" style="width:300px;">
-                </td>
-                <td>
-                    <b>Junimea</b>
-                    <br>de Titu Maiorescu<br>Proza<br> 200 pagini
-                    <br><br>
-                    Dupa 1860 se contureaza una dintre cele mai stralucite epoci din cultura romana, epoca marilor clasici.
-                </td>
-            </tr>
-            </tbody>
-        </table>
+
+    <script src="//unpkg.com/alpinejs" defer=""></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+    <script defer="" data-domain="modernserial.com" src="https://plausible.io/js/script.manual.js"></script>
+
+    <script>window.plausible = window.plausible || function () {
+        (window.plausible.q = window.plausible.q || []).push(arguments)
+    }</script>
+
+    <!-- trigger pageview -->
+    <script>
+        function prepareUrl(params) {
+            const url = new URL(location.href)
+            const queryParams = new URLSearchParams(location.search)
+            let customUrl = url.protocol + "//" + url.hostname + url.pathname.replace(/\/$/, '')
+            for (const paramName of params) {
+                let paramValue = queryParams.get(paramName)
+                if (paramValue) {
+                    paramValue = paramValue.replace(/ /g, '+').toLocaleLowerCase()
+                    customUrl = customUrl + '/' + paramName + '/' + paramValue
+                }
+            }
+            return customUrl
+        }
+
+        plausible('pageview', {u: prepareUrl(["search", "genre", "page", "order_by", "order_sign", "error_message"])})
+    </script>
+
+
+
+    <meta property="og:title" content="Micro Lecturi">
+    <meta property="og:description" content="Read classic books as email newsletters.">
+    <meta property="og:image" content="https://modernserial.s3.us-west-1.amazonaws.com/images/a-a-a-a-buncha-static-images/default-og-image.png">
+    <meta property="og:url" content="https://modernserial.com/books/">
+    <meta property="og:type" content="website">
+
+
+    <meta name="twitter:card" content="summary_large_image">
+<style>                      .htmx-indicator{opacity:0;transition: opacity 200ms ease-in;}                      .htmx-request .htmx-indicator{opacity:1}                      .htmx-request.htmx-indicator{opacity:1}                    </style></head>
+
+<body class="flex flex-col h-screen justify-between">
+
+<!-- Header -->
+<header class="absolute inset-x-0 top-0 z-30 bg-amber-50">
+    <nav class="flex mx-auto items-center justify-between p-3 gap-4 md:gap-8 lg:px-8" aria-label="Global">
+        <a href="/" class="-m-1.5 p-1.5 sm:flex-1">
+            <span class="h8 font-sans text-lg sm:text-xl font-semibold">Micro Lecturi</span>
+        </a>
+        <div class="hidden sm:flex gap-x-6 md:gap-x-12">
+            <a href="/books" class="text-sm font-semibold leading-6 text-gray-900 hover:text-red-500">
+                Books
+            </a>
+
+            <a href="/about" class="text-sm font-semibold leading-6 text-gray-900 hover:text-red-500">
+                About
+            </a>
+        </div>
+
+        <a href="/books" class="sm:hidden text-sm font-semibold leading-6 text-gray-900 hover:text-red-500">
+            Books
+        </a>
+
+        <a href="/about" class="sm:hidden text-sm font-semibold leading-6 text-gray-900 hover:text-red-500">
+            About
+        </a>
+        <div class="flex sm:flex-1 items-center justify-end gap-x-3 md:gap-x-6">
+
+
+                <a href="/accounts/login/" class="text-sm font-semibold leading-6 text-gray-900">
+                    Log in<span aria-hidden="true" class="hidden sm:inline-flex">&nbsp;→</span></a>
+
+
+
+
+
+        </div>
+    </nav>
+</header>
+
+<!-- Main content -->
+<div class="bg-amber-50 mb-auto grow">
+
+    <div class="pt-24 pb-2 px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+            <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl">
+                Citeste pentru BAC direct pe email
+            </h2>
+            {% for lecture in lectures %}
+            <li>{{ lecture.title }}</li>
+            {% endfor %}
+            <p class="mt-6 text-lg leading-8 text-gray-600">
+                ..lecturile pentru BAC, putin cate putin. Le primesti pe mail. Citesti in metrou
+            </p>
+        </div>
+    </div>
+
+    <!-- search bar -->
+    <form action="/books/search" method="post">
+        <input type="hidden" name="csrfmiddlewaretoken" value="oE2wYuLvKrcI1hkTT0ySpayvAjGazK3pr6vVqMZdQJo4kDz5uLHExB4ZpMw8EvaT">
+
+
+        <div class="relative z-10" role="dialog" aria-modal="true">
+            <div class="inset-0 z-10 overflow-y-auto pt-4 px-4">
+                <div class="mx-auto max-w-md md:max-w-xl transform divide-y divide-gray-100 overflow-hidden rounded-xl bg-white shadow-lg ring-1 ring-black ring-opacity-5 transition-all">
+                    <div class="relative">
+                        <svg class="pointer-events-none absolute top-3.5 left-4 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"></path>
+                        </svg>
+                        <!-- todo add hidden label -->
+
+                        <input name="search" id="search-bar" type="text" class="h-12 border-0 bg-transparent pl-11 pr-4 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm w-full" placeholder="Search by author or title..." role="combobox" aria-expanded="false" aria-controls="options" value="">
+                    </div>
+                </div>
+
+                <div class="py-6 mx-auto max-w-md md:max-w-xl transform divide-y divide-gray-100 overflow-hidden transition-all flex content-center justify-center gap-8">
+
+
+                    <button type="submit" class="rounded-md bg-red-400 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600">
+                        Search
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!--  no results found  -->
+
+
+    <!--  book list  -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 border-gray-900/10 border-t">
+
+            <div class="flex justify-end items-center pt-2 gap-x-2">
+                <span class="text-xs sm:text-sm text-gray-900">Genre: </span>
+
+
+                <div class="relative inline-block">
+                    <div>
+                        <button type="button" class="inline-flex justify-center gap-x-1.5 bg-white rounded-md px-2 py-1 text-xs sm:text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onclick="toggleGenreMenu()" id="genre-menu-button" aria-expanded="true" aria-haspopup="true">
+                            Any
+                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" id="genre-menu" role="menu" aria-orientation="vertical" aria-labelledby="genre-menu-button" style="display: none" tabindex="-1">
+                        <div class="py-1" role="none">
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class=" text-gray-900  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Any
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Adventure#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Adventure
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Autobiography#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Autobiography
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Biography#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Biography
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Children’s#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Children’s
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Comedy#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Comedy
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Drama#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Drama
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Fantasy#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Fantasy
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Fiction#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Fiction
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Horror#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Horror
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Memoir#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Memoir
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Mystery#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Mystery
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Nonfiction#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Nonfiction
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Philosophy#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Philosophy
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Poetry#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Poetry
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Satire#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Satire
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Science Fiction#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Science Fiction
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Shorts#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Shorts
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Spirituality#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Spirituality
+                                </a>
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Travel#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="genre-menu-item-0">
+                                    Travel
+                                </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--  Sort by -->
+            <div class="flex justify-end items-center pt-2 gap-x-2">
+                <span class="text-xs sm:text-sm text-gray-900">Order: </span>
+
+                <div class="relative inline-block">
+                    <div>
+                        <button type="button" class="inline-flex justify-center gap-x-1.5 bg-white rounded-md px-2 py-1 text-xs sm:text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50" onclick="toggleOrderMenu()" id="order-menu-button" aria-expanded="true" aria-haspopup="true">
+                            Featured
+                            <svg class="-mr-1 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" id="order-menu" role="menu" aria-orientation="vertical" aria-labelledby="order-menu-button" style="display: none" tabindex="-1">
+                        <div class="py-1" role="none">
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class=" text-gray-900  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Featured
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=title&amp;order_sign=asc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Title ↓
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=title&amp;order_sign=desc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Title ↑
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=author&amp;order_sign=asc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Author ↓
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=author&amp;order_sign=desc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Author ↑
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=current_newsletter__num_issues&amp;order_sign=asc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Length ↓
+                                </a>
+
+
+                                <a href="?page=1&amp;search=&amp;order_by=current_newsletter__num_issues&amp;order_sign=desc&amp;genre=Any#search-bar" class=" text-gray-400  block px-4 py-2 text-xs sm:text-sm hover:text-gray-900" role="menuitem" tabindex="-1" id="order-menu-item-0">
+                                    Length ↑
+                                </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--  all numbers of columns are common factors of 30 (the number of results per page), so each row is always full -->
+            <ul role="list" class="grid grid-cols-3 gap-x-4 gap-y-8 sm:gap-x-10 lg:grid-cols-5 2xl:grid-cols-6 xl:gap-x-16 2xl-gap-x-32 py-2">
+
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/sun-tzu_the-art-of-war_lionel-giles.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/sun-tzu_the-art-of-war_lionel-giles" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Art of War</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Art of War
+                        </p>
+                        <a href="?search=Sun Tzu&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Sun Tzu
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 7 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/karl-marx_friedrich-engels_the-communist-manifesto_samuel-moore" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Communist Manifesto</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Communist Manifesto
+                        </p>
+                        <a href="?search=Karl Marx&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Karl Marx
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 7 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/lewis-carroll_alices-adventures-in-wonderland_john-tenniel.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/lewis-carroll_alices-adventures-in-wonderland_john-tenniel" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Alice’s Adventures in Wonderland</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Alice’s Adventures in Wonderland
+                        </p>
+                        <a href="?search=Lewis Carroll&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Lewis Carroll
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 12 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/mary-shelley_frankenstein.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/mary-shelley_frankenstein" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Frankenstein</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Frankenstein
+                        </p>
+                        <a href="?search=Mary Shelley&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Mary Shelley
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 35 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/ernest-hemingway_the-sun-also-rises.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/ernest-hemingway_the-sun-also-rises" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Sun Also Rises</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Sun Also Rises
+                        </p>
+                        <a href="?search=Ernest Hemingway&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Ernest Hemingway
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 30 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/charles-dickens_a-tale-of-two-cities.jpg" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/charles-dickens_a-tale-of-two-cities" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for A Tale of Two Cities</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            A Tale of Two Cities
+                        </p>
+                        <a href="?search=Charles Dickens&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Charles Dickens
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 62 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/frederick-douglass_narrative-of-the-life-of-frederick-douglass.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/frederick-douglass_narrative-of-the-life-of-frederick-douglass" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Narrative of the Life of Frederick Douglass</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Narrative of the Life of Frederick Douglass
+                        </p>
+                        <a href="?search=Frederick Douglass&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Frederick Douglass
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 20 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/h-g-wells_the-war-of-the-worlds.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/h-g-wells_the-war-of-the-worlds" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The War of the Worlds</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The War of the Worlds
+                        </p>
+                        <a href="?search=H. G. Wells&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            H. G. Wells
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 30 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/laozi_tao-te-ching_james-legge.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/laozi_tao-te-ching_james-legge" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Tao Te Ching</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Tao Te Ching
+                        </p>
+                        <a href="?search=Laozi&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Laozi
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 5 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/henry-david-thoreau_walden.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/henry-david-thoreau_walden" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Walden</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Walden
+                        </p>
+                        <a href="?search=Henry David Thoreau&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Henry David Thoreau
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 50 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/benjamin-franklin_the-autobiography-of-benjamin-franklin.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/benjamin-franklin_the-autobiography-of-benjamin-franklin" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Autobiography of Benjamin Franklin</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Autobiography of Benjamin Franklin
+                        </p>
+                        <a href="?search=Benjamin Franklin&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Benjamin Franklin
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 30 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/hermann-hesse_siddhartha_gunther-olesch_anke-dreher_amy-coulter_stefan-langer_semyon-chaichenets.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/hermann-hesse_siddhartha_gunther-olesch_anke-dreher_amy-coulter_stefan-langer_semyon-chaichenets" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Siddhartha</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Siddhartha
+                        </p>
+                        <a href="?search=Hermann Hesse&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Hermann Hesse
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 18 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/jane-austen_pride-and-prejudice.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/jane-austen_pride-and-prejudice" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Pride and Prejudice</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Pride and Prejudice
+                        </p>
+                        <a href="?search=Jane Austen&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Jane Austen
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 63 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/james-joyce_a-portrait-of-the-artist-as-a-young-man.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/james-joyce_a-portrait-of-the-artist-as-a-young-man" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for A Portrait of the Artist as a Young Man</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            A Portrait of the Artist as a Young Man
+                        </p>
+                        <a href="?search=James Joyce&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            James Joyce
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 35 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/edwin-a-abbott_flatland.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/edwin-a-abbott_flatland" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Flatland</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Flatland
+                        </p>
+                        <a href="?search=Edwin A. Abbott&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Edwin A. Abbott
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 21 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/jonathan-swift_gullivers-travels.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/jonathan-swift_gullivers-travels" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Gulliver’s Travels</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Gulliver’s Travels
+                        </p>
+                        <a href="?search=Jonathan Swift&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Jonathan Swift
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 50 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/f-scott-fitzgerald_the-great-gatsby.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/f-scott-fitzgerald_the-great-gatsby" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Great Gatsby</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Great Gatsby
+                        </p>
+                        <a href="?search=F. Scott Fitzgerald&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            F. Scott Fitzgerald
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 23 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/aesop_fables_v-s-vernon-jones.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/aesop_fables_v-s-vernon-jones" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Fables</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Fables
+                        </p>
+                        <a href="?search=Aesop&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Aesop
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 35 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/friedrich-nietzsche_beyond-good-and-evil_helen-zimmern.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/friedrich-nietzsche_beyond-good-and-evil_helen-zimmern" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Beyond Good and Evil</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Beyond Good and Evil
+                        </p>
+                        <a href="?search=Friedrich Nietzsche&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Friedrich Nietzsche
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 29 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/bram-stoker_dracula.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/bram-stoker_dracula" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Dracula</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Dracula
+                        </p>
+                        <a href="?search=Bram Stoker&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Bram Stoker
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 85 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/w-e-b-du-bois_the-souls-of-black-folk.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/w-e-b-du-bois_the-souls-of-black-folk" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Souls of Black Folk</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Souls of Black Folk
+                        </p>
+                        <a href="?search=W. E. B. Du Bois&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            W. E. B. Du Bois
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 31 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/mark-twain_the-adventures-of-huckleberry-finn.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/mark-twain_the-adventures-of-huckleberry-finn" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Adventures of Huckleberry Finn</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Adventures of Huckleberry Finn
+                        </p>
+                        <a href="?search=Mark Twain&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Mark Twain
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 53 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/j-w-von-goethe_the-sorrows-of-young-werther_r-d-boylan.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/j-w-von-goethe_the-sorrows-of-young-werther_r-d-boylan" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Sorrows of Young Werther</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Sorrows of Young Werther
+                        </p>
+                        <a href="?search=J. W. von Goethe&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            J. W. von Goethe
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 19 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/niccolo-machiavelli_the-prince_w-k-marriott.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/niccolo-machiavelli_the-prince_w-k-marriott" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Prince</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Prince
+                        </p>
+                        <a href="?search=Niccolò Machiavelli&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Niccolò Machiavelli
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 21 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/helen-keller_the-story-of-my-life.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/helen-keller_the-story-of-my-life" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Story of My Life</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Story of My Life
+                        </p>
+                        <a href="?search=Helen Keller&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Helen Keller
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 65 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/arthur-conan-doyle_a-study-in-scarlet.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/arthur-conan-doyle_a-study-in-scarlet" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for A Study in Scarlet</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            A Study in Scarlet
+                        </p>
+                        <a href="?search=Arthur Conan Doyle&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Arthur Conan Doyle
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 20 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/john-stuart-mill_the-subjection-of-women.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/john-stuart-mill_the-subjection-of-women" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Subjection of Women</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Subjection of Women
+                        </p>
+                        <a href="?search=John Stuart Mill&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            John Stuart Mill
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 20 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/joseph-conrad_heart-of-darkness.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/joseph-conrad_heart-of-darkness" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for Heart of Darkness</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            Heart of Darkness
+                        </p>
+                        <a href="?search=Joseph Conrad&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Joseph Conrad
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 17 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/frances-hodgson-burnett_the-secret-garden.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/frances-hodgson-burnett_the-secret-garden" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for The Secret Garden</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            The Secret Garden
+                        </p>
+                        <a href="?search=Frances Hodgson Burnett&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Frances Hodgson Burnett
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 37 emails
+                        </p>
+                    </li>
+
+                    <li class="relative">
+                        <div class="relative group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-red-400 focus-within:ring-offset-2 focus-within:ring-offset-gray-100 shadow-md">
+                            <img src="https://modernserial.s3.us-west-1.amazonaws.com/covers/theodore-roosevelt_an-autobiography.jpg" loading="lazy" class="pointer-events-none object-cover group-hover:opacity-75">
+                            <a href="/books/theodore-roosevelt_an-autobiography" type="button" class="absolute inset-0  focus:outline-none">
+                                <span class="sr-only">View details for An Autobiography</span>
+                            </a>
+                        </div>
+                        <p class="pointer-events-none mt-2 text-center block truncate text-sm font-medium text-gray-900">
+                            An Autobiography
+                        </p>
+                        <a href="?search=Theodore Roosevelt&amp;page=1#search-bar" class="block text-center text-sm font-medium text-gray-500 decoration-inherit underline hover:text-gray-700">
+                            Theodore Roosevelt
+                        </a>
+                        <p class="pointer-events-none text-center block truncate text-xs font-medium text-gray-600">
+                            Read in 96 emails
+                        </p>
+                    </li>
+
+            </ul>
+
+
+            <!--  result count  -->
+            <div class="flex sm:flex-1 sm:items-center sm:justify-between pb-2">
+                <div>
+                    <p class="text-sm text-gray-700">
+                        Showing
+                        <span class="font-medium">1</span>
+                        to
+                        <span class="font-medium">30</span>
+                        of
+                        <span class="font-medium">750</span>
+                        results
+                    </p>
+                </div>
+            </div>
 
     </div>
-            <p style="float: right">
-                <a href="#"><i class="fa fa-youtube fa-3x"></i></a> &nbsp;
-            <a href="#"><i class="fa fa-google fa-3x"></i></a>
-            &nbsp;
-            <a href="#"><i class="fa fa-facebook fa-3x"></i></a></p>
+
+    <!-- pagination -->
+
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 border-gray-900/10 border-t">
+            <nav class="flex items-center justify-between px-4 sm:px-0 pb-4">
+
+                <div class="-mt-px flex w-0 flex-1">
+
+
+                </div>
+
+                    <div class="hidden md:-mt-px md:flex">
+
+
+
+                            <a href="?page=1&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class="inline-flex items-center border-t-2 border-red-400 px-4 pt-4 text-sm font-medium text-red-500" aria-current="page">1</a>
+
+
+                    </div>
+
+                    <div class="hidden md:-mt-px md:flex">
+
+
+
+                                <a href="?page=2&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">2</a>
+
+
+                    </div>
+
+                    <div class="hidden md:-mt-px md:flex">
+
+
+
+                                <a href="?page=3&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">3</a>
+
+
+                    </div>
+
+                    <div class="hidden md:-mt-px md:flex">
+
+
+
+                                <span class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500">...</span>
+
+
+                    </div>
+
+                    <div class="hidden md:-mt-px md:flex">
+
+
+
+                                <a href="?page=25&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class="inline-flex items-center border-t-2 border-transparent px-4 pt-4 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">25</a>
+
+
+                    </div>
+
+                <div class="-mt-px flex w-0 flex-1 justify-end">
+
+                        <a href="?page=2&amp;search=&amp;order_by=featured_priority&amp;order_sign=desc&amp;genre=Any#search-bar" class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+                            Next
+                            <svg class="ml-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd"></path>
+                            </svg>
+                        </a>
+
+                </div>
+            </nav>
+        </div>
+
+
+    <script>
+        function toggleGenreMenu() {
+            const genreMenu = document.getElementById("genre-menu");
+            if (genreMenu.style.display === "none") {
+                genreMenu.style.display = "block";
+            } else {
+                genreMenu.style.display = "none";
+            }
+
+            const orderMenu = document.getElementById("order-menu");
+            orderMenu.style.display = "none";
+        }
+
+        function toggleOrderMenu() {
+            const orderMenu = document.getElementById("order-menu");
+            if (orderMenu.style.display === "none") {
+                orderMenu.style.display = "block";
+            } else {
+                orderMenu.style.display = "none";
+            }
+
+            const genreMenu = document.getElementById("genre-menu");
+            genreMenu.style.display = "none";
+        }
+    </script>
+
+</div>
+<!-- Global notification live region, render this permanently at the end of the document -->
+<div aria-live="assertive" class="pointer-events-none fixed inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6 z-50">
+    <div class="flex w-full flex-col items-center z-50 space-y-4 sm:items-end">
+
+        <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50" x-data="{ showSuccessMessage: false }" x-show="showSuccessMessage" style="display: none;" x-init="setTimeout(() => showSuccessMessage = false, 5000)" x-transition:enter="transform ease-out duration-300 transition" x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2" x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="p-4 z-50">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="h-6 w-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                        <p class="text-sm font-medium text-gray-900">Success!</p>
+                        <p class="mt-1 text-sm text-gray-500">None</p>
+                    </div>
+                    <div class="ml-4 flex flex-shrink-0">
+                        <button type="button" class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="showSuccessMessage = false">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5 z-50" x-data="{ showErrorMessage: false }" x-show="showErrorMessage" style="display: none;" x-transition:enter="transform ease-out duration-300 transition" x-transition:enter-start="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2" x-transition:enter-end="translate-y-0 opacity-100 sm:translate-x-0" x-transition:leave="transition ease-in duration-100" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="p-4 z-50">
+                <div class="flex items-start">
+                    <div class="flex-shrink-0">
+                        <svg class="h-6 w-6 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z"></path>
+
+                        </svg>
+                    </div>
+                    <div class="ml-3 w-0 flex-1 pt-0.5">
+                        <p class="text-sm font-medium text-gray-900">Error</p>
+                        <p class="mt-1 text-sm text-gray-500">None</p>
+                    </div>
+                    <div class="ml-4 flex flex-shrink-0">
+                        <button type="button" class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" @click="showErrorMessage = false">
+                            <span class="sr-only">Close</span>
+                            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-</body>
-</html>
+<!-- Footer -->
+<footer aria-labelledby="footer-heading" class="bg-white relative border-t border-gray-900/10">
+    <h2 id="footer-heading" class="sr-only">Footer</h2>
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8 gap-2">
+        <!--  icons  -->
+        <div class="flex justify-center space-x-6 md:order-3">
+            <a href="/privacy" target="_blank" class="text-gray-400 hover:text-gray-500 text-xs sm:text-center mt-1">
+                Privacy Policy
+            </a>
+            <a href="mailto: support@modernserial.com" target="_blank" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Email</span>
+                <!-- Heroicon name: outline/mail -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+            </a>
+
+            <a href="https://twitter.com/andrewedstrom" target="_blank" class="text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Twitter</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"></path>
+                </svg>
+            </a>
+        </div>
+        <!--  Copyright  -->
+        <div class="mt-4 md:mt-0 md:order-1">
+            <p class="text-center text-base text-gray-400">
+                © 2023 Micro Lecturi, LLC
+            </p>
+        </div>
+
+        <!--  Feedback  -->
+        <div class="mt-4 md:mt-0 md:order-2">
+            <p class="text-center text-base text-gray-400">
+                Have feedback? Let us know at
+                <a href="mailto:feedback@modernserial.com" target="_blank" class="underline hover:text-gray-500">
+                    feedback@modernserial.com
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+
+</body></html>

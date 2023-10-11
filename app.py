@@ -1,13 +1,23 @@
+import sqlalchemy
 from flask import Flask, request, render_template
+
 import pandas as pd
+from extensions import db
 import os
 from main import update_send
-app = Flask(__name__)
+from flask_sqlalchemy import SQLAlchemy
 
+from models import Lecture
+
+app = Flask(__name__)
+app.config.from_object('config')
+
+db.init_app(app)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+
         email = request.form['email']
 
         # Initialize or load DataFrame
@@ -25,7 +35,9 @@ def index():
         update_send()
         return "Email added successfully!"
 
-    return render_template('index.html')
+    lectures = Lecture.query.all()
+
+    return render_template('index.html', lectures=lectures)
 
 
 if __name__ == '__main__':

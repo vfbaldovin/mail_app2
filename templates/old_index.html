@@ -1,0 +1,100 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mail app</title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Mail App Homepage">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</head>
+
+<body>
+<nav class="navbar">
+    <ul>
+        <li class="active"><a href="/">Home</a></li>
+        <li><a href="/#texte-narative">Texte narative</a></li>
+        <li><a href="/#poezii">Poezii</a></li>
+        <li><a href="/#altele">Altele</a></li>
+    </ul>
+</nav>
+
+<div class="page-content">
+    <div class="wrap">
+        <h3 id="background">Micro-lecturi</h3>
+        <p>Citeste pentru BAC direct pe email. Lecturile pentru BAC, putin cate putin. Le primesti pe mail. Citesti in metrou.</p>
+        <p>Enter your email</p>
+        <form method="post">
+            <input type="email" name="email" required>
+            <input type="submit" value="Submit">
+        </form>
+        <h3 id="texte-narative">Texte narative</h3>
+        <table>
+            <tbody>
+            <tr>
+                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOvT0ofh0us0RDbp4-iHYtgXRqTA7Xrjs7WQ&usqp=CAU" style="width:300px;">
+                </td>
+                <td>
+                    <b>O scrisoare pierdută</b>
+                    <br>de I.L. Caragiale<br>Comedie<br> 240 pagini
+                    <br><br>
+                    O scrisoare pierdută este o comedie de moravuri sociale și politice, scrisă de dramaturgul român Ion Luca Caragiale, în anul 1884.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3 id="poezii">Poezii</h3>
+        <table>
+            <tbody>
+            <tr>
+                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcThlnPNIDEK8dJMwBL08wn8bt-EOYYAToOUcQ&usqp=CAU" style="width:300px; height: 200px">
+                </td>
+                <td>
+                    <b>Luceafarul</b>
+                    <br>de Mihai Eminescu<br>Poezie romantica<br> 98 strofe
+                    <br><br>
+                    Luceafărul este una dintre cele mai cunoscute poezii ale lui Mihai Eminescu, începută încă din 1873.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h3 id="altele">Altele</h3>
+        <table>
+            <tbody>
+            <tr>
+                <th class="year" colspan="2"><a href="#">aboneaza-te</a></th>
+            </tr>
+            <tr>
+                <td>
+                    <img src="https://media.bzi.ro/unsafe/1060x596/smart/filters:contrast(5):format(webp):quality(80)/http://www.bzi.ro/wp-content/uploads/2022/01/271651927_1539243699775137_2833922511989246746_n.jpg" style="width:300px;">
+                </td>
+                <td>
+                    <b>Junimea</b>
+                    <br>de Titu Maiorescu<br>Proza<br> 200 pagini
+                    <br><br>
+                    Dupa 1860 se contureaza una dintre cele mai stralucite epoci din cultura romana, epoca marilor clasici.
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+            <p style="float: right">
+                <a href="#"><i class="fa fa-youtube fa-3x"></i></a> &nbsp;
+            <a href="#"><i class="fa fa-google fa-3x"></i></a>
+            &nbsp;
+            <a href="#"><i class="fa fa-facebook fa-3x"></i></a></p>
+</div>
+
+</body>
+</html>
