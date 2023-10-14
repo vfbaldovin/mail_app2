@@ -93,7 +93,7 @@ button, select {
 }
 
 [type=button], [type=reset], [type=submit], button {
-    -webkit-appearance: button;
+    /*-webkit-appearance: button;*/
     background-color: initial;
     background-image:none
 }
@@ -395,7 +395,8 @@ select {
 }
 
 .container {
-    width:100%
+    width:100%;
+    padding-bottom: 1rem;
 }
 
 @media (min-width: 640px) {
@@ -1653,7 +1654,7 @@ select {
 
 .bg-amber-50 {
     --tw-bg-opacity: 1;
-    background-color:rgb(255 251 235/var(--tw-bg-opacity))
+    background-:rgb(255 251 235/var(--tw-bg-opacity))
 }
 
 .bg-blue-50 {
@@ -2376,7 +2377,7 @@ select {
     border-color:#0000
 }
 
-.focus\:outline-none:focus {
+.   focus\:outline-none:focus {
     outline: 2px solid #0000;
     outline-offset:2px
 }
