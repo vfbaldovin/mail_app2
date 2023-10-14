@@ -2880,3 +2880,7 @@ select {
         grid-template-columns: repeat(6, minmax(0, 1fr))
     }
 }
+
+.heading-font {
+    font-family: Merriweather, Georgia, "Times New Roman", Times, serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
